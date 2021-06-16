@@ -4,17 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using EXAMEN_4.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace EXAMEN_4.Controllers
 {
     public class HomeController : Controller
     {
-        
- 
-        private readonly PeruFailContext _context;
+       private readonly PeruFailContext _context;
         public HomeController(PeruFailContext context)
         {
            _context = context;
@@ -22,13 +20,23 @@ namespace EXAMEN_4.Controllers
 
         public IActionResult Index()
         {
-            var usuarios = _context.Usuarios.Include(x => x.Visita)
+            var usuarios = _context.Usuarios.Include(x => x.Invitado)
                         .Where(x => x.FechaRegistro.AddDays(5) >= DateTime.Now)
                         .ToList();
             return View(usuarios);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+         public IActionResult Register()
+        {
+            return View();
+        }
+
+         public IActionResult Privacy()
         {
             return View();
         }

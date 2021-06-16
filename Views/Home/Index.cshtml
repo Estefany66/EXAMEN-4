@@ -1,8 +1,22 @@
-﻿@{
+﻿@model List<Usuario>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (Model.Count() == 0){
+    <p class="text-center">No tenemos productos para mostrar en este momento:(</p>
+} else{
+    <div class="row">
+        @foreach (var usuario in Model)
+        {
+            <div class="col-4 text-center">
+                <h2>@usuario.Nombre</h2>
+                <h2>@usuario.NombreFoto</h2>
+                <img src="@usuario.Foto" class="img-fluid" />
+                <h2>@usuario.FechaRegistro</h2>
+                
+            </div>
+        }
+    </div>
+}
+

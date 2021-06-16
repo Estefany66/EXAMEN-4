@@ -6,21 +6,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EXAMEN_4.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EXAMEN_4.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        
+ 
+        private readonly PeruFailContext _context;
+        public HomeController(PeruFailContext context)
         {
-            _logger = logger;
+           _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var usuarios = _context.Usuarios.Include(x => x.Visita)
+                        .Where(x => x.FechaRegistro.AddDays(5) >= DateTime.Now)
+                        .ToList();
+            return View(usuarios);
         }
 
         public IActionResult Privacy()
